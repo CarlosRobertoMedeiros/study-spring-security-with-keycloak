@@ -1,0 +1,45 @@
+version: "3.7"
+
+services:
+
+  #link: localhost:8180/auth
+  keycloak_microservices:
+    container_name: keycloak_microservices
+    image: jboss/keycloak:16.0.0
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+    ports:
+      - 8180:8080
+    networks:
+      - spring-security-network 
+        
+  #DataBase Security
+  postgres_security_database:
+    container_name: postgres_security_database
+    image: postgres:12.2
+    environment:
+      DATABASE_HOST: localhost
+      POSTGRES_DB: security_database
+      POSTGRES_USER: security
+      POSTGRES_PASSWORD: security
+    volumes:
+      - ./db/docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
+    ports:
+      - "5432:5432"
+    restart: unless-stopped      
+    networks:
+      - spring-security-network
+
+
+
+networks:
+  spring-security-network:
+    driver: bridge
+      
+      
+      
+
+  
+  
+  
