@@ -4,6 +4,9 @@ spring:
     url: jdbc:postgresql://localhost:5432/security_database
     username: security
     password: security
+    initialization-mode: always
+    #initialize: true
+    data: classpath:data.sql
   jpa:
     hibernate:
       ddl-auto: update

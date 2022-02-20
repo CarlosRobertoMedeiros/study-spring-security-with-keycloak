@@ -1,5 +1,6 @@
 package br.com.roberto.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,5 +19,21 @@ public class StudentController {
 		ModelAndView modelAndView = new ModelAndView("home");
 		return modelAndView;
 	}
+	
+	@GetMapping("/manage-students")
+	@PreAuthorize("hasAuthority('PROFESSOR')")
+	//@PreAuthorize("hasAuthority('PROFESSOR') or hasAuthority('STUDENT')")
+	public ModelAndView manageStudents() {
+		ModelAndView modelAndView = new ModelAndView("manage-students");
+		return modelAndView;
+	}
+	
+	@GetMapping("/access-denied")
+	public ModelAndView accessDenied() {
+		ModelAndView modelAndView = new ModelAndView("access-denied");
+		return modelAndView;
+	}
+	
+	
 
 }

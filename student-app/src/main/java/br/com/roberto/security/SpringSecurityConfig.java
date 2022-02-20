@@ -32,7 +32,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 				.formLogin().loginPage("/login")
 				.defaultSuccessUrl("/home")
 				.usernameParameter("username") //form name
-				.passwordParameter("password"); //form name
+				.passwordParameter("password") //form name
+				.and().exceptionHandling().accessDeniedPage("/access-denied")
+				.and().logout().logoutUrl("/logout").logoutSuccessUrl("/login");
 	}
 	
 	@Bean
