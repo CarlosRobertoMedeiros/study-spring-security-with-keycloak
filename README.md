@@ -3,6 +3,9 @@
 # Environment
   - Execute the docker stack 
     - docker-compose -f local-stack.yml -up
+  
+  PostGres Security Database
+	 The inicializacao.bat is a bat script to cleanUp the database structure, into local pc
 
   KeyCloak
 	- In case of problems with the login

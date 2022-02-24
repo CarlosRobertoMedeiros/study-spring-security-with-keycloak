@@ -34,3 +34,6 @@ build/
 
 ### Eclipse ###
 .metadata
+
+### Docker ###
+/db/postgres-data/

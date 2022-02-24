@@ -2,58 +2,35 @@ version: "3.7"
 
 services:
 
-  #link: localhost:8180/auth
+  #link: localhost:8280/auth
   keycloak_microservices:
     container_name: keycloak_microservices
     image: jboss/keycloak:${KEYCLOAK_VERSION}
     environment:
       KEYCLOAK_USER: ${KEYCLOAK_USER}
       KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
-      DB_DATABASE: ${KEYCLOAK_DATABASE_NAME}
-      DB_USER: ${KEYCLOAK_DATABASE_USER}
-      DB_PASSWORD: ${KEYCLOAK_DATABASE_PASSWORD}
-      DB_ADDR: ${KEYCLOAK_DATABASE_HOST}
-      DB_VENDOR: ${KEYCLOAK_DATABASE_VENDOR}
     ports:
-      - 8180:8080
+      - 8280:8080
     networks:
-      - spring-security-network
-    depends_on:
-      - keycloak_database
-
-  keycloak_database:
-    container_name: keycloak_database
-    image: postgres:${POSTGRES_VERSION}
-    environment:
-      POSTGRES_DB: ${KEYCLOAK_DATABASE_NAME}
-      POSTGRES_USER: ${KEYCLOAK_DATABASE_USER}
-      POSTGRES_PASSWORD: ${KEYCLOAK_DATABASE_PASSWORD}
-    ports:
-      - "5433:5432"
-    volumes:
-      - keycloak-postgres:/var/lib/postgresql/data
-    networks:
-      - spring-security-network
+      - spring-security-network    
         
   #DataBase Security
   postgres_security_database:
     container_name: postgres_security_database
-    image: postgres:${POSTGRES_VERSION}
+    image: postgres:${SECURITY_DATABASE_POSTGRES_VERSION}
     environment:
-      DATABASE_HOST: localhost
+      DATABASE_HOST: ${SECURITY_DATABASE_POSTGRES_HOST}
       POSTGRES_DB: security_database
-      POSTGRES_USER: security
-      POSTGRES_PASSWORD: security
-    #volumes:
-      #- ./db/docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
+      POSTGRES_USER: ${SECURITY_DATABASE_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${SECURITY_DATABASE_POSTGRES_PASSWORD}
+    volumes:
+      - ./db/postgres-data:/var/lib/postgresql/data
+      - ./db/postgres-init/sh_sql_dmp_files:/docker-entrypoint-initdb.d/
     ports:
       - "5432:5432"
     restart: unless-stopped      
     networks:
       - spring-security-network
-
-volumes:
-  keycloak-postgres:
 
 networks:
   spring-security-network:
