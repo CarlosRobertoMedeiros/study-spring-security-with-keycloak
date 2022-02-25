@@ -4,12 +4,10 @@ server:
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/security_database
-    username: security
-    password: security
+    url: jdbc:postgresql://localhost:5432/database_student
+    username: student
+    password: student
     initialization-mode: always
-    #initialize: true
-    data: classpath:data.sql
   jpa:
     hibernate:
       ddl-auto: update
@@ -17,3 +15,16 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
+keycloak:
+  auth-server-url: http://localhost:8280/auth
+  realm: empresa-abcy
+  resource: student-app #Aqui é o clientId
+  credentials:
+    secret: GZgVUuYQicADZ9ey3XOHppEBic8EdC6y
+  use-resource-role-mappings: true
+  ssl-required: 'none'
+  principal-attribute: preferred_username
+
+logging.level:
+  org.springframework.security: DEBUG 

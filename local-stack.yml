@@ -14,20 +14,38 @@ services:
     networks:
       - spring-security-network    
         
-  #DataBase Security
-  postgres_security_database:
-    container_name: postgres_security_database
-    image: postgres:${SECURITY_DATABASE_POSTGRES_VERSION}
+  #DataBase Security Student
+  postgres_database_student:
+    container_name: postgres_database_student
+    image: postgres:${DATABASE_POSTGRES_STUDENT_VERSION}
     environment:
-      DATABASE_HOST: ${SECURITY_DATABASE_POSTGRES_HOST}
-      POSTGRES_DB: security_database
-      POSTGRES_USER: ${SECURITY_DATABASE_POSTGRES_USER}
-      POSTGRES_PASSWORD: ${SECURITY_DATABASE_POSTGRES_PASSWORD}
+      DATABASE_HOST: ${DATABASE_POSTGRES_STUDENT_HOST}
+      POSTGRES_DB: database_student
+      POSTGRES_USER: ${DATABASE_POSTGRES_STUDENT_USER}
+      POSTGRES_PASSWORD: ${DATABASE_POSTGRES_STUDENT_PASSWORD}
     volumes:
-      - ./db/postgres-data:/var/lib/postgresql/data
-      - ./db/postgres-init/sh_sql_dmp_files:/docker-entrypoint-initdb.d/
+      - ./db/student/postgres-data:/var/lib/postgresql/data
+      - ./db/student/postgres-init/sh_sql_dmp_files:/docker-entrypoint-initdb.d/
     ports:
       - "5432:5432"
+    restart: unless-stopped      
+    networks:
+      - spring-security-network
+      
+  #DataBase Security Professor
+  postgres_database_professor:
+    container_name: postgres_database_professor
+    image: postgres:${DATABASE_POSTGRES_PROFESSOR_VERSION}
+    environment:
+      DATABASE_HOST: ${DATABASE_POSTGRES_PROFESSOR_HOST}
+      POSTGRES_DB: database_professor
+      POSTGRES_USER: ${DATABASE_POSTGRES_PROFESSOR_USER}
+      POSTGRES_PASSWORD: ${DATABASE_POSTGRES_PROFESSOR_PASSWORD}
+    volumes:
+      - ./db/professor/postgres-data:/var/lib/postgresql/data
+      - ./db/professor/postgres-init/sh_sql_dmp_files:/docker-entrypoint-initdb.d/
+    ports:
+      - "5433:5432"
     restart: unless-stopped      
     networks:
       - spring-security-network
