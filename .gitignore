@@ -36,4 +36,5 @@ build/
 .metadata
 
 ### Docker ###
-/db/postgres-data/
+/db/professor/postgres-data/
+/db/student/postgres-data/
